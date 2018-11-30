@@ -1,18 +1,18 @@
 import {Component} from "@angular/core";
-import {NavController, AlertController, ToastController, MenuController, LoadingController} from "ionic-angular";
+import {NavController, AlertController, ToastController, MenuController} from "ionic-angular";
 import {HomePage} from "../home/home";
 import {RegisterPage} from "../register/register";
-import { Validators, FormGroup, FormControl } from '@angular/forms';
-import *  as AppConfig from '../../app/config';
-import { VerficationPage } from "../verfication/verfication";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { CategoryPage } from "../category/category";
+import { Storage } from '@ionic/storage';
 
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html'
+  selector: 'page-verfication',
+  templateUrl: 'verfication.html'
 })
-export class LoginPage {
+export class VerficationPage {
 
-  loginForm: FormGroup;
+  verificationForm: FormGroup;
   loading: any;
 
   private cfg: any;
@@ -23,12 +23,11 @@ export class LoginPage {
     body: ''
   };
 
-  constructor(public nav: NavController, public forgotCtrl: AlertController, public menu: MenuController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
-    this.loginForm = new FormGroup({
-      empId: new FormControl('', Validators.required)
-    });
+  constructor(public nav: NavController, public forgotCtrl: AlertController, public menu: MenuController, public toastCtrl: ToastController, public storage: Storage) {
     this.menu.swipeEnable(false);
-    this.cfg = AppConfig.cfg;
+    this.verificationForm = new FormGroup({
+      verifyCode: new FormControl('', Validators.required)
+    });
   }
 
   // go to register page
@@ -37,11 +36,9 @@ export class LoginPage {
   }
 
   // login and go to home page
-  login() {
-    this.showLoading();
-    this.openPage(VerficationPage);
-    this.loading.dismiss();
-    //this.nav.setRoot(HomePage);
+  verify() {
+    this.storage.set('empId','1234');
+    this.nav.setRoot(CategoryPage);
   }
 
   forgotPass() {
@@ -82,17 +79,8 @@ export class LoginPage {
     forgot.present();
   }
 
-  
   openPage(pageName: any, param: any = null) {
     this.nav.push(pageName, param);
-  }
-
-  showLoading() {
-    this.loading = this.loadingCtrl.create({
-      content: 'Please wait',
-      dismissOnPageChange: true
-    });
-    this.loading.present();
   }
 
 }

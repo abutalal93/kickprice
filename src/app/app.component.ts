@@ -8,6 +8,8 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { HomePage } from "../pages/home/home";
 import { LoginPage } from "../pages/login/login";
 import { LocalWeatherPage } from "../pages/local-weather/local-weather";
+import { Storage } from '@ionic/storage';
+import { CategoryPage } from "../pages/category/category";
 
 export interface MenuItem {
     title: string;
@@ -30,7 +32,8 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public keyboard: Keyboard
+    public keyboard: Keyboard,
+    public storage: Storage
   ) {
     this.initializeApp();
 
@@ -51,6 +54,18 @@ export class MyApp {
       //*** Control Status Bar
       this.statusBar.styleDefault();
       this.statusBar.overlaysWebView(false);
+
+      this.storage.get('empId').then((empId) => {
+        console.log('Your empId is', empId);
+        if(empId){
+          this.nav.setRoot(CategoryPage);
+        }else{
+          this.nav.setRoot(LoginPage);
+        }
+      }, (error) => {
+        console.log('error', error);
+        this.openPage(LoginPage);
+      });
 
       //*** Control Keyboard
       //this.keyboard.disableScroll(true);

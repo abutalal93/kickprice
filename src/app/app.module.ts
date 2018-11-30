@@ -24,6 +24,16 @@ import {SearchLocationPage} from "../pages/search-location/search-location";
 import {TripDetailPage} from "../pages/trip-detail/trip-detail";
 import {TripsPage} from "../pages/trips/trips";
 import {LocalWeatherPage} from "../pages/local-weather/local-weather";
+import {VerficationPage} from "../pages/verfication/verfication";
+import { HttpModule } from '@angular/http';
+import { HttpService } from "../services/http.service";
+import { CategoryPage } from "../pages/category/category";
+import { CategoryService } from "../services/category-service";
+import { CategoryDetailPage } from "../pages/category-detail/category-detail";
+import { GoogleMap } from "../pages/google-map/google-map";
+import { GoogleMapsService } from '../pages/maps/maps.service';
+import { MapsPage } from '../pages/maps/maps';
+import { Geolocation } from '@ionic-native/geolocation';
 
 // import services
 // end import services
@@ -44,10 +54,16 @@ import {LocalWeatherPage} from "../pages/local-weather/local-weather";
     RegisterPage,
     SearchLocationPage,
     TripDetailPage,
-    TripsPage
+    TripsPage,
+    VerficationPage,
+    CategoryPage,
+    CategoryDetailPage,
+    GoogleMap,
+    MapsPage
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp, {
       scrollPadding: false,
@@ -71,7 +87,11 @@ import {LocalWeatherPage} from "../pages/local-weather/local-weather";
     RegisterPage,
     SearchLocationPage,
     TripDetailPage,
-    TripsPage
+    TripsPage,
+    VerficationPage,
+    CategoryPage,
+    CategoryDetailPage,
+    MapsPage
   ],
   providers: [
     StatusBar,
@@ -79,7 +99,11 @@ import {LocalWeatherPage} from "../pages/local-weather/local-weather";
     Keyboard,
     ActivityService,
     TripService,
-    WeatherProvider
+    WeatherProvider,
+    HttpService,
+    CategoryService,
+    GoogleMapsService,
+    Geolocation
   ]
 })
 

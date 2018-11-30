@@ -3,7 +3,7 @@
   <div class="login-content">
 
     <!-- Logo -->
-    <div text-center class="animated fadeInDown">
+    <div text-center>
       <div class="logo"></div>
       <h2 ion-text class="text-primary">
         <strong>Mowathaf</strong>+
@@ -11,18 +11,18 @@
     </div>
 
     <!-- Login form -->
-    <form [formGroup]="loginForm" (ngSubmit)="login()" class="list-form">
+    <form [formGroup]="verificationForm" (ngSubmit)="verify()" class="list-form">
       <ion-item>
         <ion-label floating>
-          <ion-icon name="people" item-start class="text-primary"></ion-icon>
-          Employee Number
+          <ion-icon name="filing" item-start class="text-primary"></ion-icon>
+          SMS
         </ion-label>
-        <ion-input [formControl]="loginForm.controls['empId']" type="number"></ion-input>
+        <ion-input [formControl]="verificationForm.controls['verifyCode']" type="number"></ion-input>
       </ion-item>
     </form>
 
     <div>
-      <button [disabled]="!loginForm.valid" style="margin-top: 20px;" ion-button icon-start block color="dark" tappable (click)="login()">
+      <button [disabled]="!verificationForm.valid" style="margin-top: 20px;" ion-button icon-start block color="dark" tappable (click)="verify()">
         <ion-icon name="log-in"></ion-icon>
         NEXT
       </button>
