@@ -1,10 +1,12 @@
-import {Component} from "@angular/core";
-import {NavController, AlertController, ToastController, MenuController, LoadingController} from "ionic-angular";
-import {HomePage} from "../home/home";
-import {RegisterPage} from "../register/register";
+import { Component } from "@angular/core";
+import { NavController, AlertController, ToastController, MenuController, LoadingController } from "ionic-angular";
+import { HomePage } from "../home/home";
+import { RegisterPage } from "../register/register";
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import *  as AppConfig from '../../app/config';
 import { VerficationPage } from "../verfication/verfication";
+import { GoogleNotificationService } from "../../services/google-notification.service";
+import { HttpService } from "../../services/http.service";
 
 @Component({
   selector: 'page-login',
@@ -23,9 +25,10 @@ export class LoginPage {
     body: ''
   };
 
-  constructor(public nav: NavController, public forgotCtrl: AlertController, public menu: MenuController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+  constructor(public nav: NavController, public forgotCtrl: AlertController, public menu: MenuController, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public googleNotificationService: GoogleNotificationService,
+    private httpService: HttpService) {
     this.loginForm = new FormGroup({
-      empId: new FormControl('', Validators.required)
+      employeeId: new FormControl('', Validators.required)
     });
     this.menu.swipeEnable(false);
     this.cfg = AppConfig.cfg;
@@ -37,10 +40,31 @@ export class LoginPage {
   }
 
   // login and go to home page
-  login() {
+  async login() {
     this.showLoading();
-    this.openPage(VerficationPage);
-    this.loading.dismiss();
+    this.requestOptions.path = this.cfg.api.employee;
+    this.requestOptions.method = "POST";
+
+    this.loginForm.value.mobile_platform = this.googleNotificationService.mobilePlatform;
+
+    this.loginForm.value.tokenId = this.googleNotificationService.mobileToken;
+
+    this.requestOptions.body = this.loginForm.value;
+
+    console.log('this.requestOptions.body: ', this.requestOptions.body)
+
+    let response = await this.httpService.http_request(this.requestOptions);
+
+    if (response.status == 200) {
+      console.log(response.json());
+      this.openPage(VerficationPage, response.json());
+    } else {
+      console.log(response);
+      // this.loading.dismiss();
+      // this.openPage(VerficationPage);
+      this.showAlert('Error', "Invalid Employee ID");
+      this.loading.dismiss();
+    }
     //this.nav.setRoot(HomePage);
   }
 
@@ -82,7 +106,7 @@ export class LoginPage {
     forgot.present();
   }
 
-  
+
   openPage(pageName: any, param: any = null) {
     this.nav.push(pageName, param);
   }
@@ -93,6 +117,15 @@ export class LoginPage {
       dismissOnPageChange: true
     });
     this.loading.present();
+  }
+
+  showAlert(title, text) {
+    let alert = this.forgotCtrl.create({
+      title: title,
+      subTitle: text,
+      buttons: [('Ok')]
+    });
+    alert.present();
   }
 
 }

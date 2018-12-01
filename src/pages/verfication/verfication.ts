@@ -1,7 +1,7 @@
-import {Component} from "@angular/core";
-import {NavController, AlertController, ToastController, MenuController} from "ionic-angular";
-import {HomePage} from "../home/home";
-import {RegisterPage} from "../register/register";
+import { Component } from "@angular/core";
+import { NavController, AlertController, ToastController, MenuController, NavParams } from "ionic-angular";
+import { HomePage } from "../home/home";
+import { RegisterPage } from "../register/register";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { CategoryPage } from "../category/category";
 import { Storage } from '@ionic/storage';
@@ -23,10 +23,10 @@ export class VerficationPage {
     body: ''
   };
 
-  constructor(public nav: NavController, public forgotCtrl: AlertController, public menu: MenuController, public toastCtrl: ToastController, public storage: Storage) {
+  constructor(public nav: NavController, public forgotCtrl: AlertController, public menu: MenuController, public toastCtrl: ToastController, public storage: Storage,  public navParams: NavParams) {
     this.menu.swipeEnable(false);
     this.verificationForm = new FormGroup({
-      verifyCode: new FormControl('', Validators.required)
+      verifyCode: new FormControl(this.getRandomInt(1000,5000), Validators.required)
     });
   }
 
@@ -35,9 +35,17 @@ export class VerficationPage {
     this.nav.setRoot(RegisterPage);
   }
 
+  getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   // login and go to home page
   verify() {
-    this.storage.set('empId','1234');
+    let companyId = this.navParams.get("companyId");
+    let empId = this.navParams.get("empId");
+    this.storage.set('empId', empId);
+    this.storage.set('companyId', companyId);
+    console.log('companyId',companyId);
     this.nav.setRoot(CategoryPage);
   }
 

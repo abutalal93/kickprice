@@ -27,13 +27,6 @@ export class CategoryPage {
   }
 
   async ionViewDidLoad() {
-    this.requestOptions.path = this.cfg.api.offers;
-    let response = await this.httpService.http_request(this.requestOptions);
-    console.log('TEST: ',response)
-    if (response.status == 200) {
-
-    } else {
-    }
   } 
 
   doRefresh(refresher) {
