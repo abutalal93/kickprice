@@ -34,13 +34,24 @@ import { GoogleMap } from "../pages/google-map/google-map";
 import { GoogleMapsService } from '../pages/maps/maps.service';
 import { MapsPage } from '../pages/maps/maps';
 import { Geolocation } from '@ionic-native/geolocation';
-
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { Firebase } from '@ionic-native/firebase';
+import { GoogleNotificationService } from "../services/google-notification.service";
 // import services
 // end import services
 // end import services
 
 // import pages
 // end import pages
+const firebase = {
+  apiKey: "AIzaSyDpNPYBqR8dh3k1920yusPFNG2aKWV1Dx8",
+  authDomain: "kickprice-2ec6b.firebaseapp.com",
+  databaseURL: "https://kickprice-2ec6b.firebaseio.com",
+  projectId: "kickprice-2ec6b",
+  storageBucket: "kickprice-2ec6b.appspot.com",
+  messagingSenderId: "568222748916"
+}
 
 @NgModule({
   declarations: [
@@ -73,7 +84,9 @@ import { Geolocation } from '@ionic-native/geolocation';
     IonicStorageModule.forRoot({
       name: '__ionic3_start_theme',
         driverOrder: ['indexeddb', 'sqlite', 'websql']
-    })
+    }),
+    AngularFireModule.initializeApp(firebase), 
+    AngularFirestoreModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -103,7 +116,9 @@ import { Geolocation } from '@ionic-native/geolocation';
     HttpService,
     CategoryService,
     GoogleMapsService,
-    Geolocation
+    Geolocation,
+    Firebase,
+    GoogleNotificationService
   ]
 })
 

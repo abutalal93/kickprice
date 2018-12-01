@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "568222748916",
+    "firebase_url": "https://kickprice-2ec6b.firebaseio.com",
+    "project_id": "kickprice-2ec6b",
+    "storage_bucket": "kickprice-2ec6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568222748916:android:1df9686782443231",
+        "android_client_info": {
+          "package_name": "com.decoders.kickprice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568222748916-06ta4ks7gffn471insjc8pu8p5b5sdhb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtwsNLjS4t4mCKOy4w7_-ujqoSfDYLpwQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

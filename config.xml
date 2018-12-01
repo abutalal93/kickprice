@@ -93,6 +93,7 @@
     <plugin name="cordova-plugin-geolocation" spec="4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
-    <engine name="android" spec="6.3.0" />
+    <plugin name="cordova-plugin-firebase" spec="2.0.5" />
     <engine name="ios" spec="^4.4.0" />
+    <engine name="android" spec="7.1.4" />
 </widget>

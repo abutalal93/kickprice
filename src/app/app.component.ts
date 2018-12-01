@@ -10,6 +10,9 @@ import { LoginPage } from "../pages/login/login";
 import { LocalWeatherPage } from "../pages/local-weather/local-weather";
 import { Storage } from '@ionic/storage';
 import { CategoryPage } from "../pages/category/category";
+import { GoogleNotificationService } from "../services/google-notification.service";
+import { tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 export interface MenuItem {
     title: string;
@@ -33,8 +36,20 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public keyboard: Keyboard,
-    public storage: Storage
+    public storage: Storage,
+    public googleNotificationService: GoogleNotificationService,
   ) {
+    this.storage.get('empId').then((empId) => {
+      console.log('Your empId is', empId);
+      if(empId){
+        this.nav.setRoot(CategoryPage);
+      }else{
+        this.nav.setRoot(LoginPage);
+      }
+    }, (error) => {
+      console.log('error', error);
+      this.openPage(LoginPage);
+    });
     this.initializeApp();
 
     this.appMenuItems = [
@@ -55,16 +70,18 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.statusBar.overlaysWebView(false);
 
-      this.storage.get('empId').then((empId) => {
-        console.log('Your empId is', empId);
-        if(empId){
-          this.nav.setRoot(CategoryPage);
-        }else{
-          this.nav.setRoot(LoginPage);
+      console.log('generate token ');
+      this.googleNotificationService.getToken();
+
+      console.log('listin fcm push ');
+      this.googleNotificationService.listenToNotifications().subscribe(data => {
+        if (data.wasTapped) {
+          //Notification was received on device tray and tapped by the user.
+          console.log("data");
+        } else {
+          //Notification was received in foreground. Maybe the user needs to be notified.
+          console.log("error");
         }
-      }, (error) => {
-        console.log('error', error);
-        this.openPage(LoginPage);
       });
 
       //*** Control Keyboard
