@@ -1,5 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import { Platform, Nav } from "ionic-angular";
+import { Platform, Nav, AlertController } from "ionic-angular";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -38,6 +38,7 @@ export class MyApp {
     public keyboard: Keyboard,
     public storage: Storage,
     public googleNotificationService: GoogleNotificationService,
+    public forgotCtrl: AlertController, 
   ) {
     this.storage.get('empId').then((empId) => {
       console.log('Your empId is', empId);
@@ -75,6 +76,8 @@ export class MyApp {
 
       console.log('listin fcm push ');
       this.googleNotificationService.listenToNotifications().subscribe(data => {
+        console.log("test");
+        this.showAlert("YaY!","New Discount Has Been Added For You");
         if (data.wasTapped) {
           //Notification was received on device tray and tapped by the user.
           console.log("data");
@@ -93,6 +96,15 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  showAlert(title, text) {
+    let alert = this.forgotCtrl.create({
+      title: title,
+      subTitle: text,
+      buttons: [('Ok')]
+    });
+    alert.present();
   }
 
   logout() {
